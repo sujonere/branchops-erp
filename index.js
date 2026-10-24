@@ -54,5 +54,5 @@ app.get('/', async (req, res) => {
 
 // 🚀 সার্ভার লিসেন
 app.listen(PORT, () => {
-  console.log(Server running on port ${PORT});
+  console.log('Server running on port ${PORT}'); //  এটি সঠিক i nedd same code
 });
