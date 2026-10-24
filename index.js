@@ -5,20 +5,16 @@ const PORT = process.env.PORT || 10000; // Render-এর জন্য ডিফ�
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// 🌍 আপনার আসল অনলাইন Postgres ডাটাবেজ লিংক
 const db = new Pool({
-  connectionString: "postgres://branchops_db_user:K5LgYgS9hK5B0wXG@://render.com",
+  user: 'branchops_db_user',
+  host: '://render.com',
+  database: 'branchops_db',
+  password: 'hsFrg4yqeDjc7evFpxX7HrzBvXqaCFzo7',
+  port: 5432,
   ssl: {
     rejectUnauthorized: false
   }
 });
-
-// ডাটাবেজ কানেকশন চেক ও অটো টেবিল তৈরি
-db.connect(async (err, client, release) => {
-  if (err) {
-    return console.error('Database connection error:', err.stack);
-  }
   console.log('Successfully connected to online database!');
   
   // যদি টেবিল না থাকে তবে অটোমেটিক তৈরি হবে
