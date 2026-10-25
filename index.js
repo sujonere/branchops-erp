@@ -6,19 +6,15 @@ const PORT = process.env.PORT || 10000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// 🌍 আপনার আসল অনলাইন Postgres ডাটাবেজ ইনফো
+// 🌍 রেন্ডারের এনভায়রনমেন্ট ভ্যারিয়েবল থেকে ডাটাবেজ লিংক সরাসরি রিড করবে
 const db = new Pool({
-  user: 'branchops_db_user',
-  host: '://render.com',
-  database: 'branchops_db',
-  password: 'hsFrg4yqeDjc7evFpxX7HrzBvXqaCFzo7',
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 });
 
-// ডাটাবেজ কানেকশন চেক ও অটো টেবিল তৈরি (খুব গুরুত্বপূর্ণ)
+// ডাটাবেজ কানেকশন চেক ও অটো টেবিল তৈরি
 db.connect(async (err, client, release) => {
   if (err) {
     return console.error('Database connection error:', err.stack);
@@ -43,7 +39,6 @@ db.connect(async (err, client, release) => {
   }
 });
 
-// 🏠 মেইন রুট (হোমপেজ টেস্ট)
 app.get('/', async (req, res) => {
   try {
     const result = await db.query('SELECT * FROM branches');
@@ -64,7 +59,6 @@ app.get('/', async (req, res) => {
   }
 });
 
-// 🚀 সার্ভার লিসেন
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
